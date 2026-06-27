@@ -42,7 +42,6 @@ const Navbar = () => {
                         <p className='cursor-pointer hover:text-black'>Orders</p>
                         <p className='cursor-pointer hover:text-black'>Logout</p>
                     </div>
-
                 </div>
             </div>
             
