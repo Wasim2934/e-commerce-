@@ -6,7 +6,7 @@ import ProductItem from '../components/ProductItem';
 
 const Collection = () => {
 
-  const {Products} = useContext(shopContext);
+  const { Products, search, showSearch } = useContext(shopContext);
 
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
@@ -14,7 +14,7 @@ const Collection = () => {
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
 
-  const [sortType, setSortType] = useState('relavent');
+  const [sortType, setSortType] = useState('relevant');
 
   const toogleCategory = (e) => {
     if (category.includes(e.target.value)) {
@@ -34,6 +34,10 @@ const Collection = () => {
 
   const applyFilters = () => {
     let productsCopy = products.slice()
+
+    if (showSearch && search) {
+      productsCopy = productsCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
+    }
 
     if (category.length > 0) {
       productsCopy = productsCopy.filter(item => category.includes(item.category)) 
@@ -67,7 +71,7 @@ const Collection = () => {
   useEffect(() => {
     applyFilters()
     sortProducts()
-  }, [category, subCategory, sortType])
+  }, [category, subCategory, sortType, search, showSearch])
 
   return (
     <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t border-gray-300'>
@@ -124,7 +128,7 @@ const Collection = () => {
 
           {/* Product Sort */}
           <select onChange={(e) => setSortType(e.target.value)} className='border-2 border-gray-300 text-sm px-2'>
-            <option value="relavent">Sort by: Relavent</option>
+            <option value="relevant">Sort by: Relevant</option>
             <option value="low-high">Sort by: Low to High</option>
             <option value="high-low">Sort by: High to Low</option>
           </select>
